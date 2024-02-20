@@ -1,0 +1,55 @@
+spring:
+  profiles:
+    group:
+      local: local, common
+      test: test, common
+      dev: dev, common
+      stg: stg, common
+      prd: prd, common
+    default:
+      - local
+---
+spring:
+  config:
+    activate:
+      on-profile: common
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  thymeleaf:
+    cache: false
+  main:
+    allow-bean-definition-overriding: true
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:h2:mem:study-junit5-mokito
+    username: SA
+    password:
+    driver-class-name: org.h2.Driver
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:h2:mem:study-junit5-mokito
+    username: SA
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
